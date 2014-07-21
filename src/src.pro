@@ -5,3 +5,7 @@ CONFIG -= qt
 
 SOURCES += main.cpp
 
+HEADERS += \
+    geometry.h \
+    core.h
+

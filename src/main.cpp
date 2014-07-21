@@ -1,10 +1,11 @@
 #include <iostream>
 
-using namespace std;
+#include "core.h"
+#include "geometry.h"
 
 int main()
 {
-    cout << "Hello World!" << endl;
+    Vector v(1, 2, 3);
+    std::cout << v.x <<std::endl;
     return 0;
 }
-
