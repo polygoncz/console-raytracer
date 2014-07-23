@@ -71,7 +71,7 @@ public:
      * Vypocet delky vektoru.
      * \return delka vektoru.
      */
-    float Length() const
+    float length() const
     {
         return sqrt(x * x + y * y + z * z);
     }
@@ -80,7 +80,7 @@ public:
      * Vypocet druhe mocniny delky vektoru
      * \return delka na druhou.
      */
-    float SquarredLenght() const
+    float squarredLenght() const
     {
         return x * x + y * y + z * z;
     }
@@ -89,9 +89,9 @@ public:
      * Normalizuje dany vektor. Vyuzito fluent interface.
      * \return normalizovany vektor.
      */
-    Vector Normalize()
+    Vector normalize()
     {
-        float lengthInv = 1.f / Length();
+        float lengthInv = 1.f / length();
 
         x *= lengthInv;
         y *= lengthInv;
@@ -596,23 +596,23 @@ public:
     {
     }
 
-    float Length() const
+    float length() const
     {
         return sqrt(x * x + y * y + z * z);
     }
 
-    float SquarredLenght() const
+    float squarredLenght() const
     {
         return x * x + y * y + z * z;
     }
 
-    Normal Normalize()
+    Normal normalize()
     {
-        float length = Length();
+        float l = length();
 
-        x /= length;
-        y /= length;
-        z /= length;
+        x /= l;
+        y /= l;
+        z /= l;
 
         return *this;
     }
@@ -766,20 +766,10 @@ public:
     mutable int depth; ///< hloubka rekurze
 };
 
-Vector::Vector(const Point& n)
-    : x(n.x), y(n.y), z(n.z)
-{
-}
-
-Vector::Vector(const Normal& n)
-    : x(n.x), y(n.y), z(n.z)
-{
-}
-
 /*!
  * Skalárni součin dvou vektorů.
  */
-inline float Dot(const Vector& u, const Vector& v)
+inline float dot(const Vector& u, const Vector& v)
 {
     return u.x * v.x + u.y * v.y + u.z * v.z;
 }
@@ -787,7 +777,7 @@ inline float Dot(const Vector& u, const Vector& v)
 /*!
  * Skalárni součin dvou vektorů.
  */
-inline float Dot(const Vector& u, const Normal& v)
+inline float dot(const Vector& u, const Normal& v)
 {
     return u.x * v.x + u.y * v.y + u.z * v.z;
 }
@@ -795,7 +785,7 @@ inline float Dot(const Vector& u, const Normal& v)
 /*!
  * Skalárni součin dvou vektorů.
  */
-inline float Dot(const Normal& u, const Vector& v)
+inline float dot(const Normal& u, const Vector& v)
 {
     return u.x * v.x + u.y * v.y + u.z * v.z;
 }
@@ -803,7 +793,7 @@ inline float Dot(const Normal& u, const Vector& v)
 /*!
  * Skalárni součin dvou vektorů.
  */
-inline float Dot(const Normal& u, const Normal& v)
+inline float dot(const Normal& u, const Normal& v)
 {
     return u.x * v.x + u.y * v.y + u.z * v.z;
 }
@@ -811,7 +801,7 @@ inline float Dot(const Normal& u, const Normal& v)
 /*!
  * Vektorový součin dvou vektorů.
  */
-inline Vector Cross(const Vector& u, const Vector& v)
+inline Vector cross(const Vector& u, const Vector& v)
 {
     return Vector(u.y * v.z - u.z * v.y, u.z * v.x - u.x * v.z,
                   u.x * v.y - u.y * v.x);
@@ -820,7 +810,7 @@ inline Vector Cross(const Vector& u, const Vector& v)
 /*!
  * Vektorový součin dvou vektorů.
  */
-inline Vector Cross(const Normal& u, const Vector& v)
+inline Vector cross(const Normal& u, const Vector& v)
 {
     return Vector(u.y * v.z - u.z * v.y, u.z * v.x - u.x * v.z,
                   u.x * v.y - u.y * v.x);
@@ -829,7 +819,7 @@ inline Vector Cross(const Normal& u, const Vector& v)
 /*!
  * Vektorový součin dvou vektorů.
  */
-inline Vector Cross(const Normal& u, const Normal& v)
+inline Vector cross(const Normal& u, const Normal& v)
 {
     return Vector(u.y * v.z - u.z * v.y, u.z * v.x - u.x * v.z,
                   u.x * v.y - u.y * v.x);
@@ -838,7 +828,7 @@ inline Vector Cross(const Normal& u, const Normal& v)
 /*!
  * Vektorový součin dvou vektorů.
  */
-inline Vector Cross(const Vector& u, const Normal& v)
+inline Vector cross(const Vector& u, const Normal& v)
 {
     return Vector(u.y * v.z - u.z * v.y, u.z * v.x - u.x * v.z,
                   u.x * v.y - u.y * v.x);
@@ -847,9 +837,9 @@ inline Vector Cross(const Vector& u, const Normal& v)
 /*!
  * Vzdálenost dvou bodů.
  */
-inline float Distance(const Point& p1, const Point& p2)
+inline float distance(const Point& p1, const Point& p2)
 {
     Vector v(p1 - p2);
-    return v.Length();
+    return v.length();
 }
 #endif
