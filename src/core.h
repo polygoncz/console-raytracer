@@ -31,30 +31,22 @@ inline T clamp(const T& val, T& from, T& to)
     return t > to ? from : t;
 }
 
-inline bool solveQuadratic(const float a, const float b, const float c,
-                           float* t1, float* t2)
+
+inline bool solveQuadratic(float a, float b, float c, float *t0, float *t1)
 {
-    float d = b*b - 4*a*c;
+    float discrim = b * b - 4.f * a * c;
+    if (discrim < 0.f) return false;
+    float rootDiscrim = std::sqrt(discrim);
 
-    if (d < 0) return false;
-
-    if (d == 0) {
-        if (t1 && t2)
-            *t1 = *t2 = (-b) / (2*a);
-
-        return true;
-    }
-
-    if (d > 0) {
-        if (t1)
-            *t1 = (-b - std::sqrt(d)) / (2*a);
-        if (t2)
-            *t2 = (-b + std::sqrt(d)) / (2*a);
-
-        return true;
-    }
-
-    return false;
+    float q;
+    if (b < 0.f)
+        q = -.5f * (b - rootDiscrim);
+    else
+        q = -.5f * (b + rootDiscrim);
+    *t0 = q / a;
+    *t1 = c / q;
+    if (*t0 > *t1) std::swap(*t0, *t1);
+    return true;
 }
 
 #endif // CORE_H

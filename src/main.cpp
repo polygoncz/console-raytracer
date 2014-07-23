@@ -18,22 +18,31 @@
 #include "material.h"
 #include "primitive.h"
 
-//deklarace globalnich promennych
 using namespace std;
 
+//typedefy pro kratsi psani
 typedef shared_ptr<Light> LightPtr;
 typedef shared_ptr<Primitive> PrimitivePtr;
 typedef shared_ptr<Film> FilmPtr;
 typedef shared_ptr<Camera> CameraPtr;
 
-vector<LightPtr> lights;
-vector<PrimitivePtr> objects;
+//deklarace globalnich promennych
+vector<LightPtr> lights; ///< buffer svetel
+vector<PrimitivePtr> objects; ///< buffer objektu
 
-RGBColor backgroud;
+RGBColor backgroud; ///< pozadi obrazku
 
-FilmPtr film;
-CameraPtr camera;
+FilmPtr film; ///< film v kamere - vhodne mit ho zde pro pristup k datum obrazku
+CameraPtr camera; ///< kamera ve scene
 
+string filename = "output.ppm"; ///< cesta k souboru, nastavena vychozi hodnota
+
+/*!
+ * \brief intersect
+ * \param ray
+ * \param inter
+ * \return
+ */
 bool intersect(const Ray& ray, Intersection& inter)
 {
     for (auto object : objects) {
@@ -43,6 +52,11 @@ bool intersect(const Ray& ray, Intersection& inter)
     return inter.hitObject;
 }
 
+/*!
+ * \brief intersectP
+ * \param ray
+ * \return
+ */
 bool intersectP(const Ray& ray)
 {
     for (auto object : objects) {
@@ -53,27 +67,33 @@ bool intersectP(const Ray& ray)
     return false;
 }
 
+/*!
+ * \brief Metoda hlavni renderovaci smycky.
+ */
 void renderLoop()
 {
-    size_t pixelCompleted = 0;
-
+    //pro vsechny pixely
     for (size_t r = 0; r < film->height(); ++r) {
         for (size_t c = 0; c < film->width(); ++c) {
+            //provede transformaci paprsku
             Ray ray = camera->generateRay( { (float) r, (float) c } );
+
             Intersection inter;
-
             intersect(ray, inter);
-
             if (inter.hitObject) { //pokud protne objekt
+                //svetelne prispevky od jednotlivych svetel
                 RGBColor color;
                 for (auto light : lights) {
                     const Vector shDir = light->getDirection(inter);
                     Ray shadowRay(inter.hitPoint, shDir);
 
+                    //implementace stinu
                     if (!intersectP(shadowRay)) {
-                        float ndotwi = dot(inter.normal, shDir);
+                        //vypocet svetelneho prispevku pro jednotliva svetla
+                        float ndotwi = dot(inter.normal, shDir); // "zeslabovaci faktor"
                         if (ndotwi > 0.f)
-                            color += inter.material->f(shDir, ray.d, inter.normal) * light->l(inter) * ndotwi;
+                            color += inter.material->f(shDir, ray.d, inter.normal)
+                                     * light->l(inter) * ndotwi;
                     }
                 }
 
@@ -85,9 +105,14 @@ void renderLoop()
     }
 }
 
+/*!
+ * \brief Ukladani dat z filmu do obrazku typu PPM.
+ * \param film objekt filmu, ktery chceme ulozit
+ * \param path cesta (absolutni, relativni)
+ */
 void saveImageToPPM(const shared_ptr<Film>& film, const string& path)
 {
-    std::ofstream ofs(path, ios::binary | ios::out);
+    ofstream ofs(path, ios::binary | ios::out);
 
     ofs << "P6\n" << film->width() << " " << film->height() << "\n255\n";
 
@@ -104,6 +129,9 @@ void saveImageToPPM(const shared_ptr<Film>& film, const string& path)
     ofs.close();
 }
 
+/*!
+ * \brief Tato metoda slouzi k inicializaci globalnich promennych, ktere predstavuji scenu.
+ */
 void build()
 {
     backgroud = GREY;
@@ -124,23 +152,21 @@ void build()
                         ));
     objects.push_back(sphere);
 
-    //LightPtr pl1(new PointLight(WHITE, 0.5f, Point(10.f, 10.f, 10.f)));
     LightPtr pl2(new PointLight(RED, 2.f, Point(10.f, 10.f, -10.f)));
-    //LightPtr pl3(new PointLight(WHITE, 1.f, Point(-10.f, 10.f, 5.f)));
 
-//    lights.push_back(pl1);
     lights.push_back(pl2);
-//    lights.push_back(pl3);
 }
 
+/*!
+ * \brief main
+ * \param argc
+ * \param argv
+ * \return
+ */
 int main(int argc, char* argv[])
 {
-    string path;
-
     if (argc == 2)
-        path = argv[1];
-    else
-        path = "output.ppm";
+        filename = argv[1];
 
     clock_t start, end;
 
@@ -157,9 +183,9 @@ int main(int argc, char* argv[])
     double renderTime = (double)(end - start) / CLOCKS_PER_SEC;
     cout << "Render time: " << renderTime << endl;
 
-    saveImageToPPM(film, path);
+    saveImageToPPM(film, filename);
 
-    cout << "Save into: " << path << endl;
+    cout << "Save into: " << filename << endl;
 
     return 0;
 }
