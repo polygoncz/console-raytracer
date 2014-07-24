@@ -38,9 +38,9 @@ CameraPtr camera; ///< kamera ve scene
 string filename = "output.ppm"; ///< cesta k souboru, nastavena vychozi hodnota
 
 /*!
- * \brief intersect
- * \param ray
- * \param inter
+ * \brief Najde nejblizsi prusecik paprsku s objekty ve scene.
+ * \param [in]  ray paprsek
+ * \param [out] inter objekt do ktereho se ukladaji data o pruseciku
  * \return
  */
 bool intersect(const Ray& ray, Intersection& inter)
@@ -53,8 +53,8 @@ bool intersect(const Ray& ray, Intersection& inter)
 }
 
 /*!
- * \brief intersectP
- * \param ray
+ * \brief Zjednodusena verze funkce intersect(const Ray&, Intersection&) pro vypocet stinu.
+ * \param ray paprsek
  * \return
  */
 bool intersectP(const Ray& ray)
@@ -80,7 +80,9 @@ void renderLoop()
 
             Intersection inter;
             intersect(ray, inter);
-            if (inter.hitObject) { //pokud protne objekt
+
+            //pokud protne objekt
+            if (inter.hitObject) {
                 //svetelne prispevky od jednotlivych svetel
                 RGBColor color;
                 for (auto light : lights) {
