@@ -6,7 +6,6 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     film.cpp \
-    progressbar.cpp \
     primitive.cpp \
     light.cpp \
     geometry.cpp \
@@ -19,7 +18,6 @@ HEADERS += \
     intersection.h \
     film.h \
     color.h \
-    progressbar.h \
     light.h \
     material.h \
     primitive.h \
