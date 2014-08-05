@@ -1,0 +1,39 @@
+﻿Build started 5.8.2014 22:02:11.
+     1>Project "D:\_dev_test\console-raytracer\src\src.vcxproj" on node 2 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file "Win32\Debug\console-raytracer.lastbuildstate".
+       InitializeBuildStatus:
+         Creating "Win32\Debug\console-raytracer.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\qt\5.3\msvc2010_opengl\mkspecs\win32-msvc2010" /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /nologo /W3 /WX- /Od /Oy- /D _CONSOLE /D UNICODE /D WIN32 /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"Win32\Debug\\" /Fd"Win32\Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt camera.cpp film.cpp geometry.cpp light.cpp main.cpp material.cpp primitive.cpp -Zm200 -w34100 -w34189 
+         camera.cpp
+         film.cpp
+         geometry.cpp
+         light.cpp
+     1>light.cpp(23): warning C4100: 'inter' : unreferenced formal parameter
+         main.cpp
+         material.cpp
+     1>material.cpp(17): warning C4100: 'n' : unreferenced formal parameter
+     1>material.cpp(17): warning C4100: 'wo' : unreferenced formal parameter
+     1>material.cpp(17): warning C4100: 'wi' : unreferenced formal parameter
+         primitive.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"debug\\src.exe" /NOLOGO /LIBPATH:C:\Qt\5.3\msvc2010_opengl\lib /LIBPATH:"C:\Program Files (x86)\Visual Leak Detector\lib\Win32" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Win32\Debug\src.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\_dev_test\console-raytracer\src\debug\src.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X86 Win32\Debug\camera.obj
+         Win32\Debug\film.obj
+         Win32\Debug\geometry.obj
+         Win32\Debug\light.obj
+         Win32\Debug\main.obj
+         Win32\Debug\material.obj
+         Win32\Debug\primitive.obj "/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" 
+         src.vcxproj -> D:\_dev_test\console-raytracer\src\debug\src.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"debug\\src.exe;#1" /manifest Win32\Debug\src.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Win32\Debug\console-raytracer.unsuccessfulbuild".
+         Touching "Win32\Debug\console-raytracer.lastbuildstate".
+     1>Done Building Project "D:\_dev_test\console-raytracer\src\src.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.06
