@@ -7,6 +7,7 @@
 #include "core.h"
 
 #include "geometry.h"
+#include "material.h"
 
 /**
  * Struktura uchovává atributy, které představují souhrn

@@ -10,6 +10,7 @@
 #include <cmath>
 #include <algorithm>
 #include <assert.h>
+#include <limits>
 
 #include "core.h"
 
@@ -731,7 +732,7 @@ public:
      * Bezparametrický konstruktor.
      */
     Ray()
-        : mint(0.f), maxt(INFINITY), rayEpsilon(EPSILON), depth(0)
+        : mint(0.f), maxt(std::numeric_limits<float>::max()), rayEpsilon(EPSILON), depth(0)
     {}
 
     /*!
@@ -743,8 +744,8 @@ public:
      * \param eps hodnota epsilon pro eliminaci chyb při výpočtech s desetinnou čárkou
      * \param _depth hloubka rekurze
      */
-    Ray(const Point& _o, const Vector& _d, float start = 0.f, float end =
-            INFINITY, float eps = EPSILON, int _depth = 0)
+    Ray(const Point& _o, const Vector& _d, float start = 0.f, float end = std::numeric_limits<float>::max(),
+        float eps = EPSILON, int _depth = 0)
         : o(_o), d(_d), mint(start), maxt(end), rayEpsilon(eps), depth(_depth)
     {}
 

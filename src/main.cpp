@@ -6,8 +6,9 @@
 #include <ctime>
 #include <algorithm>
 
+
 //Main includes
-#include "core.h"
+//#include "core.h"
 
 #include "camera.h"
 #include "color.h"
@@ -45,7 +46,8 @@ string filename = "output.ppm"; ///< cesta k souboru, nastavena vychozi hodnota
  */
 bool intersect(const Ray& ray, Intersection& inter)
 {
-    for (auto object : objects) {
+    for (auto it = objects.begin(); it != objects.end(); ++it) {
+        auto object = *it;
         object->intersect(ray, inter);
     }
 
@@ -59,7 +61,8 @@ bool intersect(const Ray& ray, Intersection& inter)
  */
 bool intersectP(const Ray& ray)
 {
-    for (auto object : objects) {
+    for (auto it = objects.begin(); it != objects.end(); ++it) {
+        auto object = *it;
         if (object->intersectP(ray))
             return true;
     }
@@ -76,7 +79,11 @@ void renderLoop()
     for (size_t r = 0; r < film->height(); ++r) {
         for (size_t c = 0; c < film->width(); ++c) {
             //provede transformaci paprsku
-            Ray ray = camera->generateRay( { (float) r, (float) c } );
+            CameraSample s;
+            s.x = static_cast<float>(r);
+            s.y = static_cast<float>(c);
+
+            Ray ray = camera->generateRay(s);
 
             Intersection inter;
             intersect(ray, inter);
@@ -85,7 +92,8 @@ void renderLoop()
             if (inter.hitObject) {
                 //svetelne prispevky od jednotlivych svetel
                 RGBColor color;
-                for (auto light : lights) {
+                for (auto it = lights.begin(); it != lights.end(); ++it) {
+                    auto light = *it;
                     const Vector shDir = light->getDirection(inter);
                     Ray shadowRay(inter.hitPoint, shDir);
 
